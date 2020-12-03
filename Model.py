@@ -2,6 +2,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras import optimizers
 from tensorflow.keras.layers import Flatten, Dense, Conv2D, MaxPooling2D
 from tensorflow.keras.datasets import mnist
+from tensorflow.keras import initializers
 import numpy as np
 
  #filters: Integer, the dimensionality of the output space (i.e. the number of output filters in the convolution).
@@ -22,15 +23,15 @@ import numpy as np
 #flattern the con layer output
 #dense layer with 512 hidden units
 #output layer, choose softmax, each output reprsent the possibility of cooresponding digit
-def build_cnn1(input_shape, output_size):
+def build_cnn(input_shape, kernel_initializer, denes_layer_units,output_size):
     model = Sequential()
-    model.add(Conv2D(filters= 32, input_shape=input_shape, kernel_size=(5,5),strides=(1, 1)))
+    model.add(Conv2D(filters= 32, input_shape=input_shape,kernel_initializer= kernel_initializer,kernel_size=(5,5), strides=(1, 1)))
     model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
     model.add(Conv2D(filters= 64, kernel_size=(5,5), strides=(1, 1)))
     model.add(MaxPooling2D(pool_size=(2, 2),strides=(1, 1)))
     #here is nn
     model.add(Flatten())
-    model.add(Dense(512,activation='relu'))
+    model.add(Dense(denes_layer_units,activation='relu'))
     model.add(Dense(output_size,activation='softmax'))
     model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
     return model
